@@ -18,3 +18,12 @@ const init = async () => {
 }
 
 init()
+
+process
+  .on('unhandledRejection', (reason, p) => {
+    logger.error(`Unhandled Rejection at Promise: ${p}`)
+  })
+  .on('uncaughtException', err => {
+    logger.error(`Uncaught Exception thrown: ${err.message}`)
+    process.exit(1)
+  })
