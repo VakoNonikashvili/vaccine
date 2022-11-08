@@ -3,9 +3,11 @@ import logger from './logger'
 import config from './config'
 import routes from './routes'
 import initDb from './db'
+import rateLimiter from './middlewares/rateLimiter'
 
 const app: Express = express()
 
+app.use(rateLimiter)
 app.use(routes)
 
 const port = config.PORT || 8000
