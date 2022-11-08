@@ -9,6 +9,7 @@ interface IVaccinationInfo {
 const vaccinationInfoSchema = new Schema<IVaccinationInfo>({
     date: {
         type: Date,
+        index: true,
         required: true
     },
     numberDosesReceived: {
@@ -17,6 +18,7 @@ const vaccinationInfoSchema = new Schema<IVaccinationInfo>({
     },
     country: {
         type: String,
+        index: true,
         required: true
     },
 })

@@ -1,12 +1,18 @@
 import express, { Express, Request, Response } from 'express'
 import logger from './logger'
 import config from './config'
+import routes from './routes'
+import initDb from './db'
 
 const app: Express = express()
 
-app.get('/', (_, res: Response) => {
-    res.send('Server is running')
-})
+app.use(routes)
 
 const port = config.PORT || 8000
-app.listen(port, () => logger.info(`Server is running at port: ${port}`))
+
+const init = async () => {
+    await initDb()
+    app.listen(port, () => logger.info(`Server is running at port: ${port}`))
+}
+
+init()
