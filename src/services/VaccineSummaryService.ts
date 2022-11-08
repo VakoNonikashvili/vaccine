@@ -16,7 +16,7 @@ export interface IVaccineSummaryRequestQuery {
     dateTo: string
     c: string
     range: number
-    sort?: 'weekStart' | 'numberDosesReceived'
+    sort?: string
 }
 
 interface IVaccineSummaryResponseInnerBody {

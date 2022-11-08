@@ -22,7 +22,7 @@ afterAll(async () => {
 })
 
 describe('Vaccine summary service', () => {
-    it('should successfully result result for AT', async () => {
+    it('should successfully return result for AT', async () => {
         const query = {
             c: 'AT',
             dateFrom: '2020-W53',
@@ -32,16 +32,16 @@ describe('Vaccine summary service', () => {
 
         const expectedResult = {
             summary: [
-            {
-                weekStart: '2020-W53',
-                weekEnd: '2021-W05',
-                numberDosesReceived: 25
-            },
-            {
-                weekStart: '2021-W05',
-                weekEnd: '2021-W10',
-                numberDosesReceived: 15
-            }
+                {
+                    weekStart: '2020-W53',
+                    weekEnd: '2021-W05',
+                    numberDosesReceived: 25
+                },
+                {
+                    weekStart: '2021-W05',
+                    weekEnd: '2021-W10',
+                    numberDosesReceived: 15
+                }
             ]
         }
 
@@ -49,7 +49,7 @@ describe('Vaccine summary service', () => {
         expect(result).toEqual(expectedResult)
     })
 
-    it('should successfully result result for 2 weeks range', async () => {
+    it('should successfully return result for 2 weeks range', async () => {
         const query = {
             c: 'AT',
             dateFrom: '2020-W53',
@@ -59,31 +59,31 @@ describe('Vaccine summary service', () => {
 
         const expectedResult = {
             summary: [
-            {
-                weekStart: '2020-W53',
-                weekEnd: '2021-W02',
-                numberDosesReceived: 10
-            },
-            {
-                weekStart: '2021-W02',
-                weekEnd: '2021-W04',
-                numberDosesReceived: 10
-            },
-            {
-                weekStart: '2021-W04',
-                weekEnd: '2021-W06',
-                numberDosesReceived: 5
-            },
-            {
-                weekStart: '2021-W06',
-                weekEnd: '2021-W08',
-                numberDosesReceived: 10
-            },
-            {
-                weekStart: '2021-W08',
-                weekEnd: '2021-W10',
-                numberDosesReceived: 5
-            }
+                {
+                    weekStart: '2020-W53',
+                    weekEnd: '2021-W02',
+                    numberDosesReceived: 10
+                },
+                {
+                    weekStart: '2021-W02',
+                    weekEnd: '2021-W04',
+                    numberDosesReceived: 10
+                },
+                {
+                    weekStart: '2021-W04',
+                    weekEnd: '2021-W06',
+                    numberDosesReceived: 5
+                },
+                {
+                    weekStart: '2021-W06',
+                    weekEnd: '2021-W08',
+                    numberDosesReceived: 10
+                },
+                {
+                    weekStart: '2021-W08',
+                    weekEnd: '2021-W10',
+                    numberDosesReceived: 5
+                }
             ]
         }
 
@@ -91,7 +91,7 @@ describe('Vaccine summary service', () => {
         expect(result).toEqual(expectedResult)
     })
 
-    it('should successfully result result for GE', async () => {
+    it('should successfully return result for GE', async () => {
         const query = {
             c: 'GE',
             dateFrom: '2020-W53',
@@ -101,16 +101,43 @@ describe('Vaccine summary service', () => {
 
         const expectedResult = {
             summary: [
-            {
-                weekStart: '2020-W53',
-                weekEnd: '2021-W05',
-                numberDosesReceived: 10
-            },
-            {
-                weekStart: '2021-W05',
-                weekEnd: '2021-W10',
-                numberDosesReceived: 20
-            }
+                {
+                    weekStart: '2020-W53',
+                    weekEnd: '2021-W05',
+                    numberDosesReceived: 10
+                },
+                {
+                    weekStart: '2021-W05',
+                    weekEnd: '2021-W10',
+                    numberDosesReceived: 20
+                }
+            ]
+        }
+
+        const result = await getVaccineSummary(query)
+        expect(result).toEqual(expectedResult)
+    })
+
+    it('should successfully result result for GE with numberDosesReceived sorting', async () => {
+        const query = {
+            c: 'GE',
+            dateFrom: '2020-W53',
+            dateTo: '2021-W10',
+            range: 5,
+            sort: 'numberDosesReceived'
+        }
+
+        const expectedResult = {
+            summary: [
+                {
+                    weekStart: '2021-W05',
+                    weekEnd: '2021-W10',
+                    numberDosesReceived: 20
+                }, {
+                    weekStart: '2020-W53',
+                    weekEnd: '2021-W05',
+                    numberDosesReceived: 10
+                }
             ]
         }
 
