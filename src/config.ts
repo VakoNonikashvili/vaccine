@@ -1,10 +1,16 @@
 import dotenv from "dotenv"
 
-interface ProcessEnv {
-    PORT?: string
-    NODE_ENV?: string
-}
+declare global {
+    namespace NodeJS {
+      interface ProcessEnv {
+        DB_URL: string;
+        NODE_ENV?: 'development' | 'production';
+        PORT?: string;
+      }
+    }
+  }
+  
 
 dotenv.config()
 
-export default process.env as ProcessEnv
+export default process.env
