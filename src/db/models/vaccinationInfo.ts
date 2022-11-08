@@ -1,14 +1,14 @@
 import { Schema, model } from 'mongoose'
 
 interface IVaccinationInfo {
-    yearWeekISO: string
+    date: Date | string
     numberDosesReceived: number
     country: string
 }
 
 const vaccinationInfoSchema = new Schema<IVaccinationInfo>({
-    yearWeekISO: {
-        type: String,
+    date: {
+        type: Date,
         required: true
     },
     numberDosesReceived: {

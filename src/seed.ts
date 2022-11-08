@@ -2,6 +2,7 @@ import axios from 'axios'
 import logger from './logger'
 import initDb from './db'
 import VaccinationInfo from './db/models/vaccinationInfo'
+import { convertISOToDate } from './helpers'
 
 interface IVaccinationData {
     YearWeekISO: string
@@ -39,7 +40,7 @@ const seed = async (): Promise<void> => {
         await VaccinationInfo.deleteMany()
         const data = await fetchData();
         const input = data.map((item: IVaccinationData) => ({
-            yearWeekISO: item.YearWeekISO,
+            date: convertISOToDate(item.YearWeekISO),
             numberDosesReceived: item.NumberDosesReceived || 0,
             country: item.ReportingCountry
         }))
