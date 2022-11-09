@@ -8,7 +8,6 @@ const initDb = async () => {
         logger.info('connected with database')
     } catch (err) {
         logger.error(`Can't establish connection with database`)
-        console.log(err)
     }
 }
 

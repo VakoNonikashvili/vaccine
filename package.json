@@ -4,6 +4,7 @@
   "main": "build/index.js",
   "author": "Vako",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "dev": "nodemon",
     "start": "npm run build && node build/index.js",
@@ -17,6 +18,8 @@
     "@types/jest": "^29.2.2",
     "@types/mongoose": "^5.11.97",
     "@types/node": "^18.11.9",
+    "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "@typescript-eslint/parser": "^5.42.1",
     "eslint": "^8.27.0",
     "jest": "^29.3.0",
     "mongodb-memory-server": "^8.9.5",

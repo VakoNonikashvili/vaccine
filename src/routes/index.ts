@@ -1,14 +1,27 @@
 import { Router, Request, Response } from 'express'
-import { getVaccineSummary, IVaccineSummaryRequestQuery, IVaccineSummaryResponseBody } from '../services/VaccineSummaryService'
+import { getVaccineSummary, IVaccineSummaryResponseBody } from '../services/VaccineSummaryService'
 
 const routes = Router()
 
-type VaccineSummaryRequest = Request<{}, {}, {}, IVaccineSummaryRequestQuery>
 type IVaccineSummaryResponse = Response<IVaccineSummaryResponseBody>
 
-routes.get('/vaccine-summary', async (req: VaccineSummaryRequest, res: IVaccineSummaryResponse) => {
+routes.get('/vaccine-summary', async (req: Request, res: IVaccineSummaryResponse) => {
     try {
-        const result: IVaccineSummaryResponseBody = await getVaccineSummary(req.query)
+        const dateFrom: string = req.query.dateFrom as string
+        const dateTo: string = req.query.dateTo as string
+        const c: string = req.query.c as string
+        const range: string = req.query.range as string
+        const sort: string = req.query.sort as string
+
+        const query = {
+            dateFrom,
+            dateTo,
+            c,
+            range: Number(range),
+            sort
+        }
+
+        const result: IVaccineSummaryResponseBody = await getVaccineSummary(query)
         
         res.status(200).json(result)
     } catch (err) {

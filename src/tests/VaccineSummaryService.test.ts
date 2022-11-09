@@ -1,10 +1,10 @@
 import { connect, connection, disconnect } from 'mongoose'
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import moment from 'moment'
-import { getVaccineSummary } from '../src/services/VaccineSummaryService'
-import VaccinationInfo from '../src/db/models/vaccinationInfo'
+import { getVaccineSummary } from '../services/VaccineSummaryService'
+import VaccinationInfo from '../db/models/vaccinationInfo'
 
-let mongod: MongoMemoryServer
+let mongod: MongoMemoryServer;
 
 beforeAll(async () => {
     mongod = await MongoMemoryServer.create()

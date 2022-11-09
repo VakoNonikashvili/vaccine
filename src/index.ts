@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from 'express'
+import express, { Express } from 'express'
 import logger from './logger'
 import config from './config'
 import routes from './routes'

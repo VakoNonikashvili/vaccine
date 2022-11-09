@@ -11,7 +11,7 @@ interface IVaccineSummaryAggregate {
 }
 
 
-export interface IVaccineSummaryRequestQuery {
+interface IVaccineSummaryRequestQuery {
     dateFrom: string
     dateTo: string
     c: string
@@ -30,47 +30,44 @@ export interface IVaccineSummaryResponseBody {
 }
 
 export const getVaccineSummary = async (query: IVaccineSummaryRequestQuery): Promise<IVaccineSummaryResponseBody | never> => {
-    try {
-        const dateFrom: Date = convertISOToDate(query.dateFrom)
-        const dateTo: Date  = convertISOToDate(query.dateTo)
-        const boundaries: Date[] = getDatesByRange(dateFrom, dateTo, query.range)
-        const sort: string = query.sort || 'weekStart'
-        const sortOption: ISortOption = sort === 'weekStart' ? { _id: 1 } : { numberDosesReceived: -1 }
+    const dateFrom: Date = convertISOToDate(query.dateFrom)
+    const dateTo: Date  = convertISOToDate(query.dateTo)
+    const boundaries: Date[] = getDatesByRange(dateFrom, dateTo, query.range)
+    const sort: string = query.sort || 'weekStart'
+    const sortOption: ISortOption = sort === 'weekStart' ? { _id: 1 } : { numberDosesReceived: -1 }
 
-        const summary: IVaccineSummaryAggregate[] = await VaccinationInfo.aggregate([
-            {
-                $match: {
-                    date: {
-                        $gte: dateFrom,
-                        $lt: dateTo
-                    },
-                    country: query.c,
-                }
-            },
-            {
-                $bucket: {
-                    groupBy: "$date",
-                    boundaries,
-                    output: {
-                        numberDosesReceived: { $sum: "$numberDosesReceived" }
-                    }
-                }
-            },
-            {
-                $sort: sortOption
+    const summary: IVaccineSummaryAggregate[] = await VaccinationInfo.aggregate([
+        {
+            $match: {
+                date: {
+                    $gte: dateFrom,
+                    $lt: dateTo
+                },
+                country: query.c,
             }
-        ])
-
-        const result: IVaccineSummaryResponseBody = {
-            summary: summary.map((item: IVaccineSummaryAggregate) => ({
-                weekStart: convertDateToISO(item._id),
-                weekEnd: getWeekEnd(item._id, query.range),
-                numberDosesReceived: item.numberDosesReceived
-            }))
+        },
+        {
+            $bucket: {
+                groupBy: "$date",
+                boundaries,
+                output: {
+                    numberDosesReceived: { $sum: "$numberDosesReceived" }
+                }
+            }
+        },
+        {
+            $sort: sortOption
         }
+    ])
 
-        return result
-    } catch (err) {
-        throw err
+    const result: IVaccineSummaryResponseBody = {
+        summary: summary.map((item: IVaccineSummaryAggregate) => ({
+            weekStart: convertDateToISO(item._id),
+            weekEnd: getWeekEnd(item._id, query.range),
+            numberDosesReceived: item.numberDosesReceived
+        }))
     }
+
+    return result
+
 }

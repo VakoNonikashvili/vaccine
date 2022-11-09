@@ -26,12 +26,8 @@ interface IVaccinationData {
 const url = 'https://opendata.ecdc.europa.eu/covid19/vaccine_tracker/json/'
 
 const fetchData = async (): Promise<IVaccinationData[] | never> => {
-    try {
-        const { data } = await axios.get(url)
-        return data.records as IVaccinationData[]
-    } catch (err) {
-        throw err
-    }
+    const { data } = await axios.get(url)
+    return data.records as IVaccinationData[]
 }
 
 const seed = async (): Promise<void> => {
