@@ -4,7 +4,6 @@
   "main": "build/index.js",
   "author": "Vako",
   "license": "MIT",
-  "type": "module",
   "scripts": {
     "dev": "nodemon",
     "start": "npm run build && node build/index.js",
